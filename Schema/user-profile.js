@@ -8,9 +8,13 @@ export const usersSchema = Joi.object({
     email: Joi.string().email().required(),
     password: Joi.string().min(4).required(),
     confirmedPassword: Joi.ref('password'),
-    userName: Joi
+    userName: Joi.string(),
+    termsAndCondition: Joi.boolean(),
+    githubLink: Joi.string(),
+    linkedInLink: Joi.string(),
+    
 
     
     }
-})
+});
 

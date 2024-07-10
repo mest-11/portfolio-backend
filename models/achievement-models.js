@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 
 const achievementsSchema = new Schema ({
    
@@ -6,9 +6,10 @@ const achievementsSchema = new Schema ({
             description: { type: String },
             image: { type: String },
             date: { type: String },
-            nameOfOrganisation: { type: String }
+            nameOfOrganisation: { type: String },
+            user: {type: Types.ObjectId, ref:"User"}
   
 })
 
 
-export const userModel = model("User", achievementsSchema)
+export const achievements = model("Achievement", achievementsSchema)

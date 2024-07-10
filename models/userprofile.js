@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 
 const userProfileSchema = new Schema({
     profilePicture: { type: String },
@@ -13,7 +13,8 @@ const userProfileSchema = new Schema({
     languages: { type: String },
     githubLink: { type: String },
     linkedInLink: { type: String },
-    twitterLink: { type: String }
+    twitterLink: { type: String },
+    user: { type: Types.ObjectId, ref:"User"}
 })
 
-export const userModel = model('userProfile', userProfileSchema)
+export const userModel = model('UserProfile', userProfileSchema)

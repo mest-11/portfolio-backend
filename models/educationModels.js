@@ -14,4 +14,4 @@ const educationSchema = new Schema({
 
 })
 
-export const userModel = model('education', educationSchema)
+export const educationModel = model('Education', educationSchema)
