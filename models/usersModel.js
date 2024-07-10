@@ -99,4 +99,4 @@ const usersSchema = new Schema({
     ]
 })
 
-export const userModel = model("user", usersSchema);
+export const userModel = model("User", usersSchema);
