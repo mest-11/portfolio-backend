@@ -1,8 +1,16 @@
 import express from "express";
+import mongoose from "mongoose";
+import { Router } from "express";
+import { achievementRouter } from "./routers/achievement-route.js";
 
 const app = express();
 
 app.use(express.json());
+
+
+
+//use Router
+app.use(achievementRouter)
 
 
 
