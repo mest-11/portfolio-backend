@@ -14,7 +14,7 @@ const userProfileSchema = new Schema({
     githubLink: { type: String },
     linkedInLink: { type: String },
     twitterLink: { type: String },
-    user: { type: Types.ObjectId, ref:"User"}
+    user: { type: Types.ObjectId, ref: "User" }
 })
 
-export const userModel = model('UserProfile', userProfileSchema)
+export const userProfileModel = model('UserProfile', userProfileSchema)

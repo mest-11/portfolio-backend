@@ -1,4 +1,23 @@
 import { projectModel } from "../models/projectModel.js";
+import { projectSchema } from "../schema/projectSchema.js";
+
+
+export const addProjects = async (req, res, next) => {
+    try {
+        const { error, value } = projectSchema.validate(req.body);
+        if (error) {
+            return res.status(400).json(error.details[0].message);
+        }
+
+        // create a project with the value
+        const createProject = await projectModel.create(value);
+
+        res.json(createProject);
+
+    } catch (error) {
+        next(error);
+    }
+}
 
 
 export const getAllProjects = async (req, res, next) => {
