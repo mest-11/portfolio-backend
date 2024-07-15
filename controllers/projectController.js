@@ -1,18 +1,30 @@
 import { projectModel } from "../models/projectModel.js";
+import { userModel } from "../models/usersModel.js";
 import { projectSchema } from "../schema/projectSchema.js";
 
 
-export const addProjects = async (req, res, next) => {
+export const createProjects = async (req, res, next) => {
     try {
         const { error, value } = projectSchema.validate(req.body);
         if (error) {
             return res.status(400).json(error.details[0].message);
         }
 
-        // create a project with the value
-        const createProject = await projectModel.create(value);
+        const userSessionId = req.session.user.id;
 
-        res.json(createProject);
+        const user = await userModel.findById(userSessionId);
+        if(!user) {
+            return res.status(400).json("User not found");
+        }
+
+        // create a project with the value
+        const newProject = await projectModel.create({
+            ...value,
+            image: req.file.filename,
+            user: userSessionId
+        });
+
+        res.status(201).json(newProject);
 
     } catch (error) {
         next(error);

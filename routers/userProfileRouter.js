@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { addUserProfile } from "../controllers/userProfileController.js";
+import { createUserProfile } from "../controllers/userProfileController.js";
 
 const profileRouter = Router();
 
-profileRouter.post("/profile", addUserProfile);
+profileRouter.post("/profile", createUserProfile);
 profileRouter.get("/profile", );
 profileRouter.patch("/profile/:id", );
 profileRouter.delete("/profile/:id", );

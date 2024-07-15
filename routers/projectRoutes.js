@@ -1,7 +1,11 @@
 import { Router } from "express";
-import { deleteProject, getAllProjects, getSingleProject, updateProject } from "../controllers/projectController.js";
+import { createProjects, deleteProject, getAllProjects, getSingleProject, updateProject } from "../controllers/projectController.js";
+import { remoteUpload } from "../middleware/upload.js";
 
 const projectRouter = Router();
+
+// add projects
+projectRouter.post("/projects", remoteUpload.single("image"), createProjects);
 
 // get all projects
 projectRouter.get("/projects", getAllProjects);
