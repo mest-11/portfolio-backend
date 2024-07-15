@@ -1,4 +1,4 @@
-import { ref } from "joi";
+import pkg  from "joi";
 import { model, Schema, Types } from "mongoose";
 
 const volunteerSchema = new Schema({

@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 export const projects =  Joi.object({
-    projects:{
+   
         projectName: Joi.string(),
         description: Joi.string(),
         contributors: Joi.string(),
@@ -10,5 +10,5 @@ export const projects =  Joi.object({
         nameOfOrganisation: Joi.string(),
         startDate: Joi.string(),
         endDate: Joi.string
-    }
+    
 })

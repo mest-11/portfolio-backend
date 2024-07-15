@@ -12,4 +12,4 @@ const achievementsSchema = new Schema ({
 })
 
 
-export const achievements = model("Achievement", achievementsSchema)
+export const achievementModel = model("Achievement", achievementsSchema)

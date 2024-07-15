@@ -1,9 +1,8 @@
 import Joi from "joi";
 
 
-export const experience = Joi.object({
-    experience: 
-        {
+export const experienceSchema = Joi.object({
+
             companyName: Joi.string(),
             role: Joi.string(),
             skills: Joi.string(),
@@ -11,7 +10,5 @@ export const experience = Joi.object({
             location: Joi.string(),
             startDate: Joi.string(),
             endDate: Joi.string()
-        }
-    
     
 })
