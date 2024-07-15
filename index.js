@@ -43,6 +43,11 @@ app.use("/api/v1", projectRouter);
 expressOasGenerator.handleRequests();
 app.use((req, res) => res.redirect("/api-docs/"));
 
+//use Router
+app.use(achievementRouter)
+
+
+
 const port = process.env.PORT || 2024
 
 app.listen(port, () => {

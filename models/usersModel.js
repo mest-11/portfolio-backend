@@ -8,8 +8,6 @@ const usersSchema = new Schema({
         password: { type: String },
         userName: { type: String, unique: true },
         termsAndConditions: { type: Boolean },
-        // 
-        
 }, {
         timestamps: true
 });
