@@ -1,5 +1,5 @@
 import { volunteeringModel } from "../models/volunteeringModel.js";
-import { volunteering } from "../schema/volunteer.js";
+import { volunteering } from "../Schema/volunteer.js";
 
 export const addVolunteer = async(req, res) => {
     try {

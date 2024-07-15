@@ -1,5 +1,5 @@
 import { educationModel } from "../models/educationModels.js";
-import { educationSchema } from "../schema/education.js";
+import { educationSchema } from "../Schema/education.js";
 
 
 
