@@ -7,6 +7,7 @@ import expressOasGenerator from '@mickeymond/express-oas-generator';
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
 import "dotenv/config";
+import cors from "cors"
 
 // connect to DB
 await mongoose.connect(process.env.MONGO_URL);
@@ -21,9 +22,8 @@ expressOasGenerator.handleResponses(app, {
 });
 
 // apply middlewares
-
 app.use(express.json());
-app.use(express.static("portfolio"));
+app.use(cors({ credentials: true, origin: "*" }))
 
 app.use(session({
     secret: process.env.SESSION_SECRET,

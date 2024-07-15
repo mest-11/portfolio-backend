@@ -9,4 +9,4 @@ export const usersSchema = joi.object({
     confirmPassword: joi.ref("pasword"),
     userName: joi.string(),
     termsAndConditions: joi.boolean()
-});
+}).with("password", "confirmPassword");
