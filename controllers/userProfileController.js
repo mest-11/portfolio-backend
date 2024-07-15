@@ -84,3 +84,18 @@ export const getUserProfile = async (req, res, next) => {
     }
 }
 
+export const deleteUserProfile = async (req, res, next) => {
+    try {
+        const { error, value } = userProfileSchema.validate(req.body);
+
+        if(error) {
+            return res.status(400).send(error.details[0].message);
+        }
+
+        const deletedProfile = await userProfileModel.findByIdAndUpdate(req.params.id);
+        res.status(200).send(`Profile with ID ${deletedProfile} has been deleted`);
+    } catch (error) {
+        next(error);
+    }
+}
+

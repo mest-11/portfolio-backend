@@ -23,7 +23,7 @@ export const signup = async (req, res, next) => {
                 password: hashedPassword
             });
 
-            req.session.user = { id: newUser.id};
+            req.session.user = { id: newUser.id };
 
             return res.status(201).send(newUser);
         }
@@ -61,6 +61,7 @@ export const getUser = async (req, res, next) => {
 
         const userDetails = await userModel
             .findOne({ userName })
+            .select("-password")
             .populate({
                 path: "education",
                 options
@@ -69,7 +70,7 @@ export const getUser = async (req, res, next) => {
             .populate("skills")
             .populate({
                 path: "achievements",
-                options
+                options: { sort: { date: -1 } }
             })
             .populate({
                 path: "experiences",
@@ -83,6 +84,10 @@ export const getUser = async (req, res, next) => {
                 path: "projects",
                 options
             })
+
+        if (!userDetails) {
+            return res.status(400).json("User not found")
+        }
 
         return res.status(201).json({ user: userDetails });
     } catch (error) {
@@ -115,7 +120,7 @@ export const getAllUsers = async (req, res, next) => {
 export const logout = async (req, res, next) => {
     try {
         // destroy user session
-        await req.destroy.user()
+        await req.session.destroy();
         res.status(200).json({ message: "User successfully logged out" })
     } catch (error) {
         next(error);
