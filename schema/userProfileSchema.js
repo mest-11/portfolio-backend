@@ -1,6 +1,7 @@
 import joi from "joi";
 
 export const userProfileSchema = joi.object({
+
     profilePicture: joi.string(),
     location: joi.string(),
     maritalStatus: joi.string().valid('single', 'married', 'prefer-not-to-say'),
@@ -8,10 +9,11 @@ export const userProfileSchema = joi.object({
     bio: joi.string(),
     about: joi.string(),
     dateOfBirth: joi.date(),
-    contact: joi.string(),
+    contact: joi.number(),
     resume: joi.string(),
     languages: joi.array().items(joi.string()),
     gitHubLink: joi.string(),
     linkedInLink: joi.string()
+    
 });
 
