@@ -3,14 +3,14 @@ import Joi from "joi";
 
 export const volunteering = Joi.object({
 
-    organisation: Joi.string(),
+    organisation: Joi.string().required(),
     description: Joi.string(),
     location: Joi.string(),
     skills: Joi.string(),
-    role: Joi.string(),
+    role: Joi.string().required(),
     responsibility: Joi.string(),
     projectName: Joi.string(),
-    startDate: Joi.string(),
-    endDate: Joi.string()
+    startDate: Joi.date().required(),
+    endDate: Joi.date()
 
 })

@@ -12,6 +12,8 @@ const volunteerSchema = new Schema({
     location: { type: String },
     user: { type: Types.ObjectId, ref: "User" }
 
+},{
+    timestamps: true
 })
 
 

@@ -12,6 +12,8 @@ const educationSchema = new Schema({
     user: { type: Types.ObjectId, ref: "User" }
 
 
+},{
+    timestamps: true
 })
 
 export const educationModel = model('Education', educationSchema)

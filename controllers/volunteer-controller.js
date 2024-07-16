@@ -1,5 +1,7 @@
 import { volunteeringModel } from "../models/volunteeringModel.js";
 import { volunteering } from "../Schema/volunteer.js";
+import { userModel } from "../models/usersModel.js";
+
 
 export const addVolunteer = async(req, res) => {
     try {
@@ -10,7 +12,7 @@ export const addVolunteer = async(req, res) => {
     
     const userSessionId = req.session.user.id;
 
-    const user =  await User.findById(userSessionId);
+    const user =  await userModel.findById(userSessionId);
 
     if (!user) {
         return res.status(400).send(error.details[0].message);
@@ -58,7 +60,7 @@ export const patchVolunteer = async (req, res) => {
     }
 
     const userSessionId = req.session.user.id;
-    const user = await User.findById(userSessionId);
+    const user = await userModel.findById(userSessionId);
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -83,7 +85,7 @@ export const patchVolunteer = async (req, res) => {
 export const deleteVolunteer = async (req, res) => {
     try {
         const userSessionId = req.session.user.id;
-        const user = await User.findById(userSessionId);
+        const user = await userModel.findById(userSessionId);
         if (!user) {
           return res.status(404).send("User not found");
         }

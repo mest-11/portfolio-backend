@@ -1,6 +1,6 @@
 import { educationModel } from "../models/educationModels.js";
 import { educationSchema } from "../Schema/education.js";
-
+import { userModel } from "../models/usersModel.js";
 
 
 
@@ -16,7 +16,7 @@ export const addEducation = async (req, res) => {
 
         const userSessionId = req.session.user.id
 
-        const user = await UserActivation.findById(userSessionId);
+        const user = await userModel.findById(userSessionId);
         if (!user) {
             return res.status(404).send("User not found");
         }
@@ -69,7 +69,7 @@ export const patchEducation = async (req, res) => {
 
         const userSessionId = req.session.user.id;
 
-        const user = await User.findById(userSessionId);
+        const user = await userModel.findById(userSessionId);
 
         if (!user) {
 
