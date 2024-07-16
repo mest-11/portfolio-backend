@@ -4,10 +4,10 @@ import { addSkills, deleteSkill, getAllSkill, patchSkill } from "../controllers/
 
 export const skillRouter = Router();
 
-skillRouter.get('/skill', getAllSkill);
+skillRouter.get('/users/skill', getAllSkill);
 
-skillRouter.post('/skill', addSkills);
+skillRouter.post('/users/skill', addSkills);
 
-skillRouter.patch('/skill/id', patchSkill);
+skillRouter.patch('/users/skill/:id', patchSkill);
 
-skillRouter.delete('/skill/id', deleteSkill);
+skillRouter.delete('/users/skill/:id', deleteSkill);

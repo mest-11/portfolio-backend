@@ -1,14 +1,15 @@
 import { Router } from "express";
-import { deleteVolunteer, getAllVolunteer, patchOneVolunteer } from "../controllers/volunteer-controller.js";
-import { postAchievement } from "../controllers/achievement-controller.js";
+import { addVolunteer, deleteVolunteer, getAllVolunteer,  patchVolunteer } from "../controllers/volunteer-controller.js";
+import { checkUserSession } from "../middleware/auth.js";
+
 
 export const volunteerRouter = Router();
 
 
-volunteerRouter.get('/volunteer', getAllVolunteer);
+volunteerRouter.get('/users/volunteer', checkUserSession, getAllVolunteer);
 
-volunteerRouter.post('/volunteer', postAchievement);
+volunteerRouter.post('/user/volunteer', checkUserSession, addVolunteer);
 
-volunteerRouter.patch('/volunteer', patchOneVolunteer);
+volunteerRouter.patch('/user/volunteer/:id', checkUserSession, patchVolunteer);
 
-volunteerRouter.delete('/volunteer', deleteVolunteer);
+volunteerRouter.delete('/user/volunteer/:id', checkUserSession, deleteVolunteer);

@@ -1,20 +1,32 @@
 import { skillsModel } from "../models/skills-model.js";
-import { skills } from "../schema/skill.js";
+import { skillSchema } from "../schema/skill.js";
+
 
 
 export const addSkills = async(req, res) => {
     try {
-        const {error, value} = skillsModel.validate(req.body)
+        const {error, value} = skillSchema.validate(req.body);
     if (error){
         return res.status(400).send(error.details[0].message)
     }
-        console.log('value', value)
-    
-        const skill = await skillsModel.create(value)
-        res.status(200).json(skill)
-    
+
+const userSessionId = req.session.user.id;    
+        const user = await User.findById(userSessionId);
+
+        if (!user){
+            return res.status(400).send(error.details[0].message)
+        }
+        
+        const skill = await Skill.create({ ...value, user: userSessionId });
+
+        user.skills.push(skill._id)
+
+        await user.save();
+
+        res.status(201).json({ skill })
+
     } catch (error) {
-        return res.status(500).send(error)
+     console.log(error);
         
     }
 }
@@ -22,7 +34,8 @@ export const addSkills = async(req, res) => {
 export const getAllSkill = async (req, res) => {
 
     try {
-        const allSkill = await skillsModel.find()
+        userSessionId = req.session.id
+        const allSkill = await skillsModel.find({ user: userSessionId});
     if(addSkills.length == 0){
         return res.status(404).send('No skills added')
     }
@@ -34,45 +47,57 @@ export const getAllSkill = async (req, res) => {
 
 }
 
-export const getOneSkills = async (req, res, next) => {
-try {
-    
-        const skill = await skillsModel.findById(req.params.id)
-        res.status(200).json(skill)
-    
-} catch (error) {
-    return res.status(500).send(error)
-}
-}
 
 export const patchSkill = async (req, res) => {
     try {
-        const updateSkill = await skillsModel.findByIdAndUpdate(req.params.id)
-        res.status(200).json(updateSkill)
+        const { error, value } = skillSchema.validate(req.body);
+
+    if (error) {
+        return res.status(400).send(error.details[0].message)
+    }
+
+        const userSessionId = req.session.user.id;
+        const user = await User.findById(userSessionid);
+
+        if (!user){
+            return res.status(400).send("User not found");
+        }
+
+        const skill = await Skill.findByIdAndDelete("Skill not found");
+        if (!skill) {
+            return res.status(404).send('Skill not found');
+        }
+
+        res.status(200).json({ Skill });
     } catch (error) {
         return res.status(500).send(error)
     }
 }
 
 
-export const patchOneSkills = async (req, res) => {
-    try {
-        const updateOneSkill = await skillsModel.findOneAndUpdate(req.params.id)
-        res.status(200).json(updateOneSkill)
-    } catch (error) {
-        return res.status(500).send(error)
 
-        
-    }
-}
 
 export const deleteSkill = async (req, res) => {
     try {
-        const deleteSkill = await skillsModel.findByIdAndDelete(req.params.id)
-        res.status(200).json(deleteSkill)
+
+        const userSessionId = req.session.user.id;
+        const user = await User.findById(userSessionId);
+
+        if (!user) {
+            return res.status(404).send("Skill not found");
+        }
+
+        const skill = await skillsModel.findByIdAndDelete(req.params.id);
+        if (!skill) {
+            return res.status (404).send("Skill not found");
+        }
+
+        user.skills.pull(req.params.id);
+        await user.save();
+        res.status(200).json("Skill deleted");
     } catch (error) {
         return res.status(500).send(error)
-    }
+    };
 }
 
 

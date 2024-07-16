@@ -31,8 +31,17 @@ export const getAchievement = async (req, res) => {
                   return res.status(400).send(error.details[0].message)
               }
               
-              const achievement = await achievementModel.create(value)
-              res.status(201).send(achievement)
+              const userSessionId = req.session.user.id;
+              const achieveuserment = await User.findById(userSessionId);
+              if (!user) {
+              res.status(201).send("User not found")
+              }
+
+              const achievement = await achievementModel.create({ ...value, user: userSessionId });
+
+              await user.save();
+
+              res.status(201).json({ achievement });
           
   } catch (error) {
     console.log(error)
@@ -41,20 +50,23 @@ export const getAchievement = async (req, res) => {
     }
 
 
+    
+    
+    
     export const patchAchievement = async (req, res) => {
         try {
-            const updateAchievement = await achievementModel.findByIdAndUpdate(req.params.id)
-            res.status(200).json(updateAchievement)
-        } catch (error) {
-            return res.status(500).send(error)
-        }
-    }
-    
-    
-    export const patchOneAchievement = async (req, res) => {
-        try {
-            const updateOneAchievement = await achievementModel.findOneAndUpdate(req.params.id)
-            res.status(200).json(updateOneAchievement)
+            const { error, value } = achievementSchema.validate({ 
+                ...req.body,
+                award: req.file.award[0].filename,
+                image: req.files.image[0].filename,
+             });
+
+             const userSessionId = req.session.user.id;
+            const user = await User.findById(userSessionId);
+            if (!user) {
+                return res.status(404).send("User not found");
+            }
+            res.status(200).json({ achievement })
         } catch (error) {
             return res.status(500).send(error)
     
@@ -64,8 +76,16 @@ export const getAchievement = async (req, res) => {
     
     export const deleteAchievement = async (req, res) => {
         try {
-            const deleteAchievement = await achievementModel.findByIdAndDelete(req.params.id)
-            res.status(200).json(deleteAchievement)
+            const userSessionId = req.session.user.id;
+            const user = await User.findById(userSessionId);
+            if (!user) {
+                return res.status(404).send('Achievement not found');
+            }
+
+            user.achievements.pull(req.params.id);
+            await user.save();
+
+            res.status(200).json("Delete Achievement")
         } catch (error) {
             return res.status(500).send(error)
         }
