@@ -1,6 +1,7 @@
 import { userModel } from "../models/usersModel.js";
 import { usersSchema } from "../schema/userSchema.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const signup = async (req, res, next) => {
     try {
@@ -9,19 +10,21 @@ export const signup = async (req, res, next) => {
             return res.status(400).send(error.details[0].message);
         }
 
-        const email = value.email // value.email because the req.body is in the value
+        const { userName, email, password } = value;
 
         const ifUserExists = await userModel.findOne({ email });
         if (ifUserExists) {
             return res.status(401).send("User has already signed up");
         } else {
-            const hashedPassword = bcrypt.hashSync(value.password, 10);
-            value.password = hashedPassword;
+            const hashedPassword = bcrypt.hashSync(password, 10);
 
             const newUser = await userModel.create({
-                ...value,
+                userName,
+                email,
                 password: hashedPassword
             });
+            // const newUser = await userModel.create(value);
+
 
             req.session.user = { id: newUser.id };
 
@@ -32,27 +35,69 @@ export const signup = async (req, res, next) => {
     }
 }
 
-export const login = async (req, res, next) => {
-    try {
-        const { email, password, userName } = req.body;
+// export const login = async (req, res, next) => {
+//     try {
+//         const { userName, email, password } = req.body;
+//         //  Find a user using their email or username
+//         const user = await userModel.findOne({
+//             $or: [{ email: email }, { userName: userName }],
+//         });
+//         if (!user) {
+//             return res.status(401).json("User does not exist");
+//         }
+//         // Verify user password
+//         const correctPass = bcrypt.compareSync(value.password, user.password);
+//         if (!correctPass) {
+//             return res.status(401).json("Invalid credentials");
+//         }
+//         // Generate a session for the user
+//         req.session.user = { id: user.id };
 
+//   
+//         // Return response
+//         res.status(201).json("Login successful");
+//     } catch (error) {
+//         next(error);
+//     }
+// }
+
+
+///
+// Login user
+export const token = async (req, res, next) => {
+    try {
+        const { userName, email, password } = req.body;
+        //  Find a user using their email or username
         const user = await userModel.findOne({
             $or: [
-                { email, userName }
+                { email: email }, { userName: userName }
             ]
-        })
-
+        });
         if (!user) {
-            return res.status(401).json({ message: "User not found" })
+            return res.status(401).json("User does not exist");
+        }
+        // Verify user password
+        const correctPass = bcrypt.compareSync(password, user.password);
+        if (!correctPass) {
+            return res.status(401).json("Invalid credentials");
         }
 
+        // create token
+        const token = jwt.sign({ id: user.id }, process.env.JWT_PRIVATE_KEY, { expiresIn: "1h" })
+
+
+        res.status(200).json({
+            message: "User logged in",
+            accessToken: token
+        })
 
     } catch (error) {
         next(error);
     }
-
 }
 
+
+///
 export const getUser = async (req, res, next) => {
     try {
         const userName = req.params.userName.toLowerCase();

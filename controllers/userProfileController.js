@@ -15,7 +15,7 @@ export const createUserProfile = async (req, res, next) => {
             return res.status(400).json(error.details[0].message);
         }
 
-        const userSessionId = req.session.user.id;
+        const userSessionId = req.session?.user?.id || req?.user?.id;
 
         const user = await userModel.findById(userSessionId);
 
@@ -50,7 +50,7 @@ export const updateUserProfile = async (req, res, next) => {
             return res.status(400).json(error.details[0].message);
         }
 
-        const userSessionId = req.session.user.id;
+        const userSessionId = req.session?.user?.id || req?.user?.id;
 
         const user = await userModel.findById(userSessionId);
 
@@ -71,7 +71,7 @@ export const updateUserProfile = async (req, res, next) => {
 
 export const getUserProfile = async (req, res, next) => {
     try {
-        const userSessionId = req.session.user.id
+        const userSessionId = req.session.user.id;
 
         const profile = await userProfileModel.find({ user: userSessionId });
 
