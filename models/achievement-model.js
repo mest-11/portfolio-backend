@@ -11,7 +11,7 @@ const achievementsSchema = new Schema({
 
 }, {
     timestamps: true
-})
+});
 
 
-export const achievementModel = model("Achievement", achievementsSchema)
+export const achievementModel = model("Achievement", achievementsSchema);

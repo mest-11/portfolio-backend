@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAllUsers, getUser, signup, token } from "../controllers/userController.js";
+import { getAllUsers, getUser, login, logout, signup, token } from "../controllers/userController.js";
 import { createUserProfile, updateUserProfile } from "../controllers/userProfileController.js";
 import { remoteUpload } from "../middleware/upload.js";
 import { isAuthenticated } from "../middleware/auth.js";
@@ -7,9 +7,18 @@ import { isAuthenticated } from "../middleware/auth.js";
 
 const usersRouter = Router();
 
-usersRouter.post("/users/signup", signup);
+usersRouter.post("/users/auth/session/login", login);
 
-usersRouter.get("/users/:userName", getUser);
+usersRouter.post("/users/auth/token/login", token);
+
+usersRouter.post("/users/auth/signup", signup);
+
+usersRouter.post("/users/auth/logout", logout);
+
+
+usersRouter.get("/users/auth/:userName", getUser);
+
+usersRouter.get("/users/:userName", isAuthenticated, getUser);
 
 usersRouter.get("/users", getAllUsers);
 
@@ -24,7 +33,5 @@ usersRouter.patch("/users/userProfile/:id",
         { name: "profilePicture", maxCount: 1 },
         { name: "resume", maxCount: 1 }), isAuthenticated, updateUserProfile
 );
-
-usersRouter.post("/users/login/token", token);
 
 export default usersRouter;
