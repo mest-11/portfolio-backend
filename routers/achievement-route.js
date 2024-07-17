@@ -5,12 +5,12 @@ import { remoteUpload } from "../middleware/upload.js";
 
 const achievementRouter = Router();
 
-achievementRouter.get('/users/achievement', isAuthenticated, getAchievement);
+achievementRouter.get('/users/achievements', isAuthenticated, getAchievement);
 
-achievementRouter.post('/users/achievement', isAuthenticated, remoteUpload.single("image"), postAchievement);
+achievementRouter.post('/users/achievements', isAuthenticated, remoteUpload.single("image"), postAchievement);
 
-achievementRouter.patch('/users/achievement/:id', isAuthenticated, remoteUpload.single("image"), updateAchievement);
+achievementRouter.patch('/users/achievements/:id', isAuthenticated, remoteUpload.single("image"), updateAchievement);
 
-achievementRouter.delete('/users/achievement/:id', isAuthenticated, deleteAchievement);
+achievementRouter.delete('/users/achievements/:id', isAuthenticated, deleteAchievement);
 
 export default achievementRouter;
