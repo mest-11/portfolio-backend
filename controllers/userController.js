@@ -164,7 +164,8 @@ export const logout = async (req, res, next) => {
     try {
         // destroy user session
         await req.session.destroy();
-        res.status(200).json({ message: "User successfully logged out" })
+        
+        res.status(200).json({ message: "User successfully logged out" });
     } catch (error) {
         next(error);
     }

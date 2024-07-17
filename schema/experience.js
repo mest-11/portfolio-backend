@@ -10,6 +10,6 @@ export const experienceSchema = Joi.object({
     location: Joi.string(),
     startDate: Joi.string(),
     endDate: Joi.string(),
-    user: Joistring()
+    user: Joi.string()
 
 });
