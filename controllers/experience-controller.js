@@ -12,21 +12,21 @@ export const addExperience = async (req, res) => {
 
         const experience = await experienceModel.create(value)
 
-        const userSessionId = req.sessionuserid;
+        const userSessionId = req.session?.user?.id;
 
-        const user = await userModel.findById(userId);
+        const user = await userModel.findById(userSessionId);
         if (!user) {
-            console.log(`User not found for ID: ${userId}`)
+            console.log(`User not found for ID: ${userSessionId}`)
             return res.status(404).send('User not found');
         }
 
-        const experiencee = await Experience.create({ ...value, userSessionId });
+        const userExperience = await experienceModel.create({ ...value, userSessionId });
 
-        user.experience.push(experience._id);
+        user.experiences.push(userExperience._id);
+
         await user.save();
 
-        res.status(201).json({ experience: experience });
-        // res.status(200).json(experience)
+        res.status(201).json({ experience: userExperience });
 
     } catch (error) {
         console.error('Error adding experience:', error);
@@ -36,17 +36,20 @@ export const addExperience = async (req, res) => {
 }
 
 export const getAllExperience = async (req, res) => {
-
     try {
-        const userSessionId = req.session.user.id
-        const allexperience = await experienceModel.find()
-        if (allexperience.length == 0) {
-            return res.status(404).send('No education added')
-        }
-        res.status(200).json({ Experience: allexperience })
-    } catch (error) {
-        return res.status(500).send(error)
+        const userSessionId = req.session?.user?.id || req?.user?.id;
 
+        // Fetch all experiences that belong to the userSessionId
+        const allExperiences = await Experience.find({ user: userSessionId });
+
+        if (allExperiences.length === 0) {
+            return res.status(404).send("No experiences found for this user");
+        }
+
+        res.status(200).json({ experiences: allExperiences });
+    } catch (error) {
+        res.status(500).json({ error: "Internal Server Error" });
+        next(error)
     }
 
 }

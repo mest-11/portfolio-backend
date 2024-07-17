@@ -10,23 +10,21 @@ export const signup = async (req, res, next) => {
             return res.status(400).send(error.details[0].message);
         }
 
-        const { userName, email, password } = value;
-
+       
+        const email =value.email
         const ifUserExists = await userModel.findOne({ email });
+        
         if (ifUserExists) {
             return res.status(401).send("User has already signed up");
         } else {
-            const hashedPassword = bcrypt.hashSync(password, 10);
+            const hashedPassword = bcrypt.hashSync(value.password, 10);
+            value.password = hashedPassword
 
-            const newUser = await userModel.create({
-                userName,
-                email,
-                password: hashedPassword
-            });
+            const newUser = await userModel.create(value);
 
 
 
-            req.session.user = { id: newUser.id };
+            
 
             return res.status(201).send(newUser);
         }
@@ -164,7 +162,7 @@ export const logout = async (req, res, next) => {
     try {
         // destroy user session
         await req.session.destroy();
-        
+
         res.status(200).json({ message: "User successfully logged out" });
     } catch (error) {
         next(error);
