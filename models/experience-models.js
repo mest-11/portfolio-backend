@@ -11,7 +11,7 @@ const experienceSchema = new Schema({
     endDate: { type: String },
     user: { type: Types.ObjectId, ref: "User", select: false }
 
-},{
+}, {
     timestamps: true
 })
 

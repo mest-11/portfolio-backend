@@ -3,7 +3,6 @@ import { educationSchema } from "../Schema/education.js";
 import { userModel } from "../models/usersModel.js";
 
 
-
 export const addEducation = async (req, res) => {
 
     try {

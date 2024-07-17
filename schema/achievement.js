@@ -7,4 +7,4 @@ export const achievementSchema = Joi.object({
     date: Joi.string(),
     nameOfOrganisation: Joi.string(),
     user: Joi.string()
-})
+});
