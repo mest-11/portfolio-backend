@@ -9,7 +9,7 @@ const achievementsSchema = new Schema({
     nameOfOrganisation: { type: String },
     user: { type: Types.ObjectId, ref: "User" }
 
-},{
+}, {
     timestamps: true
 })
 

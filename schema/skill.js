@@ -6,4 +6,4 @@ export const skillSchema = Joi.object({
     levelOfProficiency: Joi.string().valid("beginner", "intermediate", "advanced", "expert"),
     user: Joi.string()
 
-})
+});

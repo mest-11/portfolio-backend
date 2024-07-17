@@ -12,4 +12,4 @@ export const experienceSchema = Joi.object({
     endDate: Joi.string(),
     user: Joistring()
 
-})
+});
