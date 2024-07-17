@@ -10,14 +10,14 @@ export const addSkills = async (req, res) => {
             return res.status(400).send(error.details[0].message)
         }
 
-        const userSessionId = req.session.user.id;
+        const userSessionId = req.session?.user?.id || req?.user.id;
         const user = await userModel.findById(userSessionId);
 
         if (!user) {
             return res.status(400).send(error.details[0].message)
         }
 
-        const skill = await Skill.create({ ...value, user: userSessionId });
+        const skill = await skillsModel.create({ ...value, user: userSessionId });
 
         user.skills.push(skill._id)
 
@@ -34,7 +34,7 @@ export const addSkills = async (req, res) => {
 export const getAllSkill = async (req, res) => {
 
     try {
-        userSessionId = req.session.id
+        userSessionId = req.session?.user?.id || req?.user.id
         const allSkill = await skillsModel.find({ user: userSessionId });
         if (addSkills.length == 0) {
             return res.status(404).send('No skills added')

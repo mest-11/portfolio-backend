@@ -12,6 +12,7 @@ import projectRouter from "./routers/projectRouter.js";
 import achievementRouter from "./routers/achievement-route.js";
 import experienceRouter from "./routers/experience-route.js";
 import skillRouter from "./routers/skill-route.js";
+import volunteerRouter from "./routers/volunteer-route.js";
 
 
 // connect to DB
@@ -47,7 +48,8 @@ app.use("/api/v1", educationRouter);
 app.use("/api/v1", achievementRouter);
 app.use("/api/v1", experienceRouter);
 app.use("/api/v1", skillRouter);
-app.use("/api/v1", experienceRouter)
+app.use("/api/v1", experienceRouter);
+app.use("/api/v1", volunteerRouter)
 
 expressOasGenerator.handleRequests();
 app.use((req, res) => res.redirect("/api-docs/"));

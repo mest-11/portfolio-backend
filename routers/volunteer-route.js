@@ -7,10 +7,10 @@ const volunteerRouter = Router();
 
 volunteerRouter.get('/users/volunteer', isAuthenticated, getAllVolunteer);
 
-volunteerRouter.post('/user/volunteer', isAuthenticated, addVolunteer);
+volunteerRouter.post('/users/volunteer', isAuthenticated, addVolunteer);
 
-volunteerRouter.patch('/user/volunteer/:id', isAuthenticated, patchVolunteer);
+volunteerRouter.patch('/users/volunteer/:id', isAuthenticated, patchVolunteer);
 
-volunteerRouter.delete('/user/volunteer/:id', isAuthenticated, deleteVolunteer);
+volunteerRouter.delete('/users/volunteer/:id', isAuthenticated, deleteVolunteer);
 
 export default volunteerRouter;

@@ -1,34 +1,37 @@
 import { volunteeringModel } from "../models/volunteeringModel.js";
-import { volunteering } from "../Schema/volunteer.js";
 import { userModel } from "../models/usersModel.js";
+import { volunteeringSchema } from "../schema/volunter.js";
 
 
-export const addVolunteer = async (req, res) => {
+export const addVolunteer = async (req, res, next) => {
     try {
-        const { error, value } = volunteering.validate(req.body)
+        const { error, value } = volunteeringSchema.validate(req.body);
+
         if (error) {
-            return res.status(400).send(error.details[0].message)
+            return res.status(400).send(error.details[0].message);
         }
 
-        const userSessionId = req.session.user.id;
+        const userSessionId = req.session?.user?.id || req?.user.id;
 
         const user = await userModel.findById(userSessionId);
 
         if (!user) {
-            return res.status(400).send(error.details[0].message);
+            return res.status(400).send("User not found");
         }
 
         const volunteering = await volunteeringModel.create({
             ...value,
             user: userSessionId,
         });
+
         user.volunteering.push(volunteering._id)
 
         await user.save();
+
         res.status(200).json({ volunteering })
 
     } catch (error) {
-        console.log(eror);
+        next(error);
     }
 };
 
@@ -48,7 +51,6 @@ export const getAllVolunteer = async (req, res) => {
     }
 
 }
-
 
 
 export const patchVolunteer = async (req, res) => {
