@@ -21,16 +21,16 @@ usersRouter.get("/users/:userName", isAuthenticated, getUser);
 
 usersRouter.get("/users", getAllUsers);
 
-usersRouter.post("/users/userProfile",
+usersRouter.post("/users/userProfile", isAuthenticated,
     remoteUpload.fields(
         { name: "profilePicture", maxCount: 1 },
-        { name: "resume", maxCount: 1 }), isAuthenticated, createUserProfile
+        { name: "resume", maxCount: 1 }), createUserProfile
 );
 
-usersRouter.patch("/users/userProfile/:id",
+usersRouter.patch("/users/userProfile/:id", isAuthenticated,
     remoteUpload.fields(
         { name: "profilePicture", maxCount: 1 },
-        { name: "resume", maxCount: 1 }), isAuthenticated, updateUserProfile
+        { name: "resume", maxCount: 1 }), updateUserProfile
 );
 
 export default usersRouter;

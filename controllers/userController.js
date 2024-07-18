@@ -127,7 +127,7 @@ export const getUser = async (req, res, next) => {
             })
 
         if (!userDetails) {
-            return res.status(400).json("User not found")
+            return res.status(400).json(userDetails)
         }
 
         return res.status(201).json({ user: userDetails });

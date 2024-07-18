@@ -41,7 +41,7 @@ export const getAllExperience = async (req, res, next) => {
         const allExperiences = await Experience.find({ user: userSessionId });
 
         if (allExperiences.length === 0) {
-            return res.status(404).send("No experiences found for this user");
+            return res.status(404).json(allExperiences);
         }
 
         res.status(200).json({ experiences: allExperiences });

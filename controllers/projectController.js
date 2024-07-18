@@ -37,12 +37,16 @@ export const createUserProject = async (req, res) => {
 export const getAllUserProjects = async (req, res) => {
     try {
         //  fetch projects belonging to a  user
-        const userSessionId = req.session.user.id
+        const userSessionId = req.session?.user?.id || req?.user.id;
+
         const allProject = await Project.find({ user: userSessionId });
+
         if (allProject.length == 0) {
-            return res.status(404).send("No Project added");
+            return res.status(404).json(allProject);
         }
+
         res.status(200).json({ Projects: allProject });
+
     } catch (error) {
         return res.status(500).json({ error })
     }
@@ -53,7 +57,7 @@ export const getSingleProject = async (req, res, next) => {
     try {
         const singleProject = await projectModel.findById(req.params.id);
         if (singleProject.length === 0) {
-            return res.status(400).send("No project found");
+            return res.status(400).json(singleProject);
         }
 
         res.status(200).json({ Project: singleProject });
