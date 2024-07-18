@@ -76,9 +76,19 @@ export const getUserProfile = async (req, res, next) => {
         const profile = await userProfileModel.find({ user: userSessionId });
 
         if (!profile) {
-            return res.status(400).json({ message: "User could not be added" });
+            return res.status(400).json(profile);
         }
         res.status(200).json(profile);
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const getOneUserProfile = async (req, res, next) => {
+    try {
+        const oneUser = userProfileModel.findById(req.params.id);
+
+        res.status(200).json(oneUser);
     } catch (error) {
         next(error);
     }

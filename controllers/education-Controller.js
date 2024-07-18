@@ -46,7 +46,7 @@ export const getAllUserEducation = async (req, res, next) => {
         const alleducation = await educationModel.find({ user: userSessionId });
 
         if (alleducation.length === 0) {
-            return res.status(404).send("No education found for this user");
+            return res.status(404).json(alleducation);
         }
 
         res.status(200).json({ education: alleducation });
@@ -63,7 +63,7 @@ export const getEducationByID = async (req, res, next) => {
         const singleEducation = await educationModel.findById(req.params.id)
 
         if (singleEducation.length === 0) {
-            return res.status(400).send("No educaction found for this user");
+            return res.status(400).json(singleEducation);
         }
 
         res.status(201).json({ Education: singleEducation });

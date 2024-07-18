@@ -41,15 +41,15 @@ export const getAllVolunteer = async (req, res) => {
         const userSessionId = req.session.user.id;
 
         const allVolunteer = await volunteeringModel.find({ user: userSessionId });
+
         if (allVolunteer.length == 0) {
-            return res.status(404).send('No Volunteer added')
+            return res.status(404).json(allVolunteer);
         }
-        res.status(200).json({ Volunteer: allVolunteer })
+        res.status(200).json({ Volunteer: allVolunteer });
+
     } catch (error) {
-        return res.status(500).send(error)
-
+        return res.status(500).send(error);
     }
-
 }
 
 export const getVolunteerByID = async (req, res, next) => {
@@ -57,7 +57,7 @@ export const getVolunteerByID = async (req, res, next) => {
         const singleVolunteer = await volunteeringModel.findById(req.params.id);
 
         if(singleVolunteer.length === 0) {
-            return res.status(400).send("No volunteer work has been added");
+            return res.status(400).json(singleVolunteer);
         }
 
         res.status(200).json({ Volunteering: singleVolunteer});
@@ -75,8 +75,10 @@ export const patchVolunteer = async (req, res) => {
             return res.status(400).send(error.details[0].message);
         }
 
-        const userSessionId = req.session.user.id;
+        const userSessionId = req.session?.user?.id || req?.user.id;
+
         const user = await userModel.findById(userSessionId);
+
         if (!user) {
             return res.status(404).send("User not found");
         }
@@ -86,16 +88,17 @@ export const patchVolunteer = async (req, res) => {
             value,
             { new: true }
         );
+
         if (!volunteering) {
             return res.status(404).send("Volunteering not found");
         }
-        res.status(200).json(updateOneVolunteer)
+
+        res.status(200).json(updateOneVolunteer);
+
     } catch (error) {
         return res.status(500).json(error)
     }
 }
-
-
 
 
 export const deleteVolunteer = async (req, res) => {
@@ -112,13 +115,12 @@ export const deleteVolunteer = async (req, res) => {
         }
 
         user.volunteering.pull(req.params.id);
+
         await user.save();
 
         res.status(200).json("Volunteering deleted");
+
     } catch (error) {
         return res.status(500).send({ error })
     }
 }
-
-
-

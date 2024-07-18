@@ -10,7 +10,7 @@ export const getAchievement = async (req, res, next) => {
         const allAchievement = await achievementModel.find({ user: userSessionId });
 
         if (allAchievement.length === 0) {
-            return res.status(400).send('No Achievement Added')
+            return res.status(400).json(allAchievement)
         }
 
         res.status(201).json({ Achievement: allAchievement })
@@ -25,7 +25,7 @@ export const getAchievementByID = async (req, res, next) => {
         const achievementByID = await achievementModel.findById(req.params.id)
 
         if (achievementByID.length === 0) {
-            return res.status(400).send("No Achievement Added");
+            return res.status(400).json(achievementByID);
         }
 
         res.status(201).json({ Achievement: achievementByID });
