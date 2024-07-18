@@ -2,19 +2,35 @@ import { achievementModel } from "../models/achievement-model.js";
 import { userModel } from "../models/usersModel.js";
 import { achievementSchema } from "../schema/achievement.js";
 
-export const getAchievement = async (req, res) => {
+export const getAchievement = async (req, res, next) => {
     try {
-        const userSessionId = req.session?.user?.id || req?.user.id;
+
+        const userSessionId = req.session?.user?.id || req?.user?.id;
 
         const allAchievement = await achievementModel.find({ user: userSessionId });
 
-        if (allAchievement.length == 0) {
+        if (allAchievement.length === 0) {
             return res.status(400).send('No Achievement Added')
         }
 
-        res.status(201).send({ Achievement: allAchievement })
+        res.status(201).json({ Achievement: allAchievement })
     } catch (error) {
-        res.status(500).json({ error })
+        next(error)
+    }
+}
+
+export const getAchievementByID = async (req, res, next) => {
+    try {
+
+        const achievementByID = await achievementModel.findById(req.params.id)
+
+        if (achievementByID.length === 0) {
+            return res.status(400).send("No Achievement Added");
+        }
+
+        res.status(201).json({ Achievement: achievementByID });
+    } catch (error) {
+        next(error);
     }
 }
 
@@ -30,12 +46,12 @@ export const postAchievement = async (req, res, next) => {
             return res.status(400).send(error.details[0].message)
         }
 
-        const userSessionId = req.session?.user?.id || req?.user.id;
+        const userSessionId = req.session?.user?.id || req?.user?.id;
 
         const user = await userModel.findById(userSessionId);
 
         if (!user) {
-            return res.status(201).send("User not found")
+            return res.status(401).send("User not found")
         }
 
         const achievement = await achievementModel.create({
@@ -43,7 +59,7 @@ export const postAchievement = async (req, res, next) => {
             user: userSessionId
         });
 
-        user.achievements.push(achievement._id)
+        user.achievements.push(achievement.id)
 
         await user.save();
 
@@ -76,7 +92,7 @@ export const updateAchievement = async (req, res, next) => {
         const achievement = await achievementModel.findByIdAndUpdate(req.params.id, value, { new: true });
 
         if (!achievement) {
-            return res.status(400).json({ message: "User not found" });
+            return res.status(404).json({ message: "User not found" });
         }
 
         res.status(200).json({ achievement })

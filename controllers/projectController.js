@@ -49,6 +49,19 @@ export const getAllUserProjects = async (req, res) => {
 };
 
 
+export const getSingleProject = async (req, res, next) => {
+    try {
+        const singleProject = await projectModel.findById(req.params.id);
+        if (singleProject.length === 0) {
+            return res.status(400).send("No project found");
+        }
+
+        res.status(200).json({ Project: singleProject });
+    } catch (error) {
+        next(error);
+    }
+}
+
 
 export const updateUserProject = async (req, res) => {
     try {

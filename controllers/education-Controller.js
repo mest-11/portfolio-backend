@@ -58,6 +58,20 @@ export const getAllUserEducation = async (req, res, next) => {
     }
 }
 
+export const getEducationByID = async (req, res, next) => {
+    try {
+        const singleEducation = await educationModel.findById(req.params.id)
+
+        if (singleEducation.length === 0) {
+            return res.status(400).send("No educaction found for this user");
+        }
+
+        res.status(201).json({ Education: singleEducation });
+    } catch (error) {
+        next(error);
+    }
+}
+
 
 // update an education of a user
 export const updateUserEducation = async (req, res, next) => {

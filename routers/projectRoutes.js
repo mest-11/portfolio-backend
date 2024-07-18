@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createProjects, deleteProject, getAllProjects, /* getSingleProject, */ updateProject } from "../controllers/projectController.js";
+import { createProjects, deleteProject, getAllProjects, getSingleProject, updateProject } from "../controllers/projectController.js";
 import { isAuthenticated } from "../middleware/auth.js";
 
 const projectRouter = Router();
@@ -11,7 +11,7 @@ projectRouter.post("/users/projects", isAuthenticated, createProjects);
 projectRouter.get("/users/projects", isAuthenticated, getAllProjects);
 
 // get projects by id
-// projectRouter.get("/users/projects/:id", isAuthenticated, getSingleProject);
+projectRouter.get("/users/projects/:id", isAuthenticated, getSingleProject);
 
 // delete project
 projectRouter.delete("/users/projects", isAuthenticated, deleteProject);

@@ -41,10 +41,23 @@ export const getAllSkill = async (req, res) => {
         }
         res.status(200).json({ skills: allSkill })
     } catch (error) {
-        return res.status(500).send(error)
-
+        res.status(500).send(error)
     }
+}
 
+
+export const getSkillByID = async (req, res, next) => {
+    try {
+        const singleSkill = await skillsModel.findById(req.params.id);
+
+        if (singleSkill.length === 0) {
+            return res.status(400).send("No skill added");
+        }
+
+        res.status(200).json({ Skill: singleSkill });
+    } catch (error) {
+        next(error);
+    }
 }
 
 
@@ -75,8 +88,6 @@ export const patchSkill = async (req, res) => {
 }
 
 
-
-
 export const deleteSkill = async (req, res) => {
     try {
 
@@ -99,6 +110,3 @@ export const deleteSkill = async (req, res) => {
         return res.status(500).send(error)
     };
 }
-
-
-

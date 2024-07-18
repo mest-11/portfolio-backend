@@ -52,6 +52,20 @@ export const getAllVolunteer = async (req, res) => {
 
 }
 
+export const getVolunteerByID = async (req, res, next) => {
+    try {
+        const singleVolunteer = await volunteeringModel.findById(req.params.id);
+
+        if(singleVolunteer.length === 0) {
+            return res.status(400).send("No volunteer work has been added");
+        }
+
+        res.status(200).json({ Volunteering: singleVolunteer});
+    } catch (error) {
+        next(error);
+    }
+}
+
 
 export const patchVolunteer = async (req, res) => {
     try {
