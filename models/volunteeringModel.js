@@ -10,7 +10,7 @@ const volunteerSchema = new Schema({
     role: { type: String },
     responsibility: { type: String },
     location: { type: String },
-    user: { type: Types.ObjectId, ref: "User" }
+    user: { type: Types.ObjectId, ref: "User", select: false }
 
 }, {
     timestamps: true
