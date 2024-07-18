@@ -31,17 +31,20 @@ export const addSkills = async (req, res) => {
     }
 }
 
-export const getAllSkill = async (req, res) => {
-
+export const getAllSkill = async (req, res, next) => {
     try {
-        userSessionId = req.session?.user?.id || req?.user.id
+        const userSessionId = req.session?.user?.id || req?.user.id;
+
         const allSkill = await skillsModel.find({ user: userSessionId });
-        if (addSkills.length == 0) {
-            return res.status(404).json(allSkill)
+
+        if (allSkill.length === 0) {
+            return res.status(204).json({ skills: allSkill });
         }
-        res.status(200).json({ skills: allSkill })
+
+        res.status(201).json({ skills: allSkill })
+
     } catch (error) {
-        res.status(500).send(error)
+        next(error)
     }
 }
 
