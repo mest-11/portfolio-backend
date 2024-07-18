@@ -49,7 +49,7 @@ app.use("/api/v1", achievementRouter);
 app.use("/api/v1", experienceRouter);
 app.use("/api/v1", skillRouter);
 app.use("/api/v1", experienceRouter);
-app.use("/api/v1", volunteerRouter)
+app.use("/api/v1", volunteerRouter);
 
 expressOasGenerator.handleRequests();
 app.use((req, res) => res.redirect("/api-docs/"));
