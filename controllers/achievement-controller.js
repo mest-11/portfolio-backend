@@ -10,7 +10,7 @@ export const getAchievement = async (req, res, next) => {
         const allAchievement = await achievementModel.find({ user: userSessionId });
 
         if (allAchievement.length === 0) {
-            return res.status(400).json(allAchievement)
+            return res.status(204).json({ Achievement: allAchievement })
         }
 
         res.status(201).json({ Achievement: allAchievement })
@@ -25,7 +25,7 @@ export const getAchievementByID = async (req, res, next) => {
         const achievementByID = await achievementModel.findById(req.params.id)
 
         if (achievementByID.length === 0) {
-            return res.status(400).json(achievementByID);
+            return res.status(204).json({ Achievement: achievementByID });
         }
 
         res.status(201).json({ Achievement: achievementByID });
@@ -95,33 +95,37 @@ export const updateAchievement = async (req, res, next) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        res.status(200).json({ achievement })
+        res.status(200).json({ achievement });
+
     } catch (error) {
         next(error);
     }
 }
 
 
-export const deleteAchievement = async (req, res) => {
+export const deleteAchievement = async (req, res, next) => {
     try {
         const userSessionId = req.session?.user?.id || req?.user.id;
 
         const user = await userModel.findById(userSessionId);
+        
         if (!user) {
-            return res.status(404).send("User not found");
+            return res.status(204).send("User not found");
         }
 
         const achievement = await achievementModel.findByIdAndDelete(req.params.id);
 
         if (!achievement) {
-            return res.status(400).json({ message: "Achievement not found" });
+            return res.status(204).json({ message: "Achievement not found" });
         }
 
         user.achievements.pull(req.params.id);
+
         await user.save();
 
         res.status(200).json("Achievement Deleted");
+
     } catch (error) {
-        return res.status(500).send(error)
+        next(error);
     }
 }

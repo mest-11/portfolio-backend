@@ -41,12 +41,12 @@ export const getAllExperience = async (req, res, next) => {
         const allExperiences = await Experience.find({ user: userSessionId });
 
         if (allExperiences.length === 0) {
-            return res.status(404).json(allExperiences);
+            return res.status(204).json({ experiences: allExperiences });
         }
 
         res.status(200).json({ experiences: allExperiences });
+
     } catch (error) {
-        res.status(500).json({ error: "Internal Server Error" });
         next(error)
     }
 
@@ -55,8 +55,13 @@ export const getAllExperience = async (req, res, next) => {
 export const getOneExperience = async (req, res) => {
     try {
 
-        const experience = await experienceModel.findById(req.params.id)
-        res.status(200).json(experience)
+        const experience = await experienceModel.findById(req.params.id);
+
+        if (experience.length === 0) {
+            return res.status(204).json({ Experiences: experience });
+        }
+
+        res.status(200).json({ Experiences: experience });
 
     } catch (error) {
         res.status(500).send(error)

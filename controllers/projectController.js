@@ -15,7 +15,7 @@ export const createUserProject = async (req, res) => {
 
         const user = await userModel.findById(userSessionId);
         if (!user) {
-            return res.status(404).send("User not found");
+            return res.status(204).send("User not found");
         }
 
         const project = await projectModel.create(
@@ -42,7 +42,7 @@ export const getAllUserProjects = async (req, res) => {
         const allProject = await Project.find({ user: userSessionId });
 
         if (allProject.length == 0) {
-            return res.status(404).json(allProject);
+            return res.status(204).json({ Projects: allProject });
         }
 
         res.status(200).json({ Projects: allProject });
@@ -56,11 +56,13 @@ export const getAllUserProjects = async (req, res) => {
 export const getSingleProject = async (req, res, next) => {
     try {
         const singleProject = await projectModel.findById(req.params.id);
+
         if (singleProject.length === 0) {
-            return res.status(400).json(singleProject);
+            return res.status(204).json({ Project: singleProject });
         }
 
         res.status(200).json({ Project: singleProject });
+
     } catch (error) {
         next(error);
     }
