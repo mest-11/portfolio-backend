@@ -43,7 +43,7 @@ export const getAllVolunteer = async (req, res) => {
         const allVolunteer = await volunteeringModel.find({ user: userSessionId });
 
         if (allVolunteer.length == 0) {
-            return res.status(404).json(allVolunteer);
+            return res.status(204).json({ Volunteer: allVolunteer });
         }
         res.status(200).json({ Volunteer: allVolunteer });
 
@@ -56,11 +56,11 @@ export const getVolunteerByID = async (req, res, next) => {
     try {
         const singleVolunteer = await volunteeringModel.findById(req.params.id);
 
-        if(singleVolunteer.length === 0) {
-            return res.status(400).json(singleVolunteer);
+        if (singleVolunteer.length === 0) {
+            return res.status(204).json({ Volunteering: singleVolunteer });
         }
 
-        res.status(200).json({ Volunteering: singleVolunteer});
+        res.status(200).json({ Volunteering: singleVolunteer });
     } catch (error) {
         next(error);
     }

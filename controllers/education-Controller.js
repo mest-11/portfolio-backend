@@ -16,7 +16,7 @@ export const addEducation = async (req, res, next) => {
         const user = await userModel.findById(userSessionId);
 
         if (!user) {
-            return res.status(404).send("User not found");
+            return res.status(204).send("User not found");
         }
 
         //create education with the content provided
@@ -46,14 +46,12 @@ export const getAllUserEducation = async (req, res, next) => {
         const alleducation = await educationModel.find({ user: userSessionId });
 
         if (alleducation.length === 0) {
-            return res.status(404).json(alleducation);
+            return res.status(204).json({ education: alleducation });
         }
 
         res.status(200).json({ education: alleducation });
 
     } catch (error) {
-        // Log any unexpected errors for debugging
-        res.status(500).json({ error: "Internal Server Error" });
         next(error);
     }
 }
@@ -63,7 +61,7 @@ export const getEducationByID = async (req, res, next) => {
         const singleEducation = await educationModel.findById(req.params.id)
 
         if (singleEducation.length === 0) {
-            return res.status(400).json(singleEducation);
+            return res.status(204).json({ Education: singleEducation });
         }
 
         res.status(201).json({ Education: singleEducation });

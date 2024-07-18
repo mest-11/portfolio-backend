@@ -54,7 +54,7 @@ export const getSkillByID = async (req, res, next) => {
         const singleSkill = await skillsModel.findById(req.params.id);
 
         if (singleSkill.length === 0) {
-            return res.status(400).json(singleSkill);
+            return res.status(204).json({ Skill: singleSkill });
         }
 
         res.status(200).json({ Skill: singleSkill });
