@@ -76,7 +76,7 @@ export const getUserProfile = async (req, res, next) => {
         const profile = await userProfileModel.find({ user: userSessionId });
 
         if (!profile) {
-            return res.status(204).json(profile);
+            return res.status(200).json(profile);
         }
 
         res.status(200).json(profile);
@@ -91,7 +91,7 @@ export const getOneUserProfile = async (req, res, next) => {
         const oneUser = userProfileModel.findById(req.params.id);
 
         if (!oneUser) {
-            return res.status(204).json(oneUser);
+            return res.status(200).json(oneUser);
         }
 
         res.status(200).json(oneUser);

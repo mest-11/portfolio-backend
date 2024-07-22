@@ -42,7 +42,7 @@ export const getAllUserProjects = async (req, res) => {
         const allProject = await Project.find({ user: userSessionId });
 
         if (allProject.length == 0) {
-            return res.status(204).json({ Projects: allProject });
+            return res.status(200).json({ Projects: allProject });
         }
 
         res.status(200).json({ Projects: allProject });
@@ -58,7 +58,7 @@ export const getSingleProject = async (req, res, next) => {
         const singleProject = await projectModel.findById(req.params.id);
 
         if (singleProject.length === 0) {
-            return res.status(204).json({ Project: singleProject });
+            return res.status(200).json({ Project: singleProject });
         }
 
         res.status(200).json({ Project: singleProject });
@@ -77,7 +77,7 @@ export const updateUserProject = async (req, res) => {
         }
 
         const userSessionId = req.session.user.id;
-        const user = await User.findById(userSessionId);
+        const user = await userModel.findById(userSessionId);
         if (!user) {
             return res.status(404).send("User not found");
         }
