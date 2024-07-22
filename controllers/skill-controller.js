@@ -19,7 +19,7 @@ export const addSkills = async (req, res) => {
 
         const skill = await skillsModel.create({ ...value, user: userSessionId });
 
-        user.skills.push(skill._id)
+        user.skills.push(skill._id);
 
         await user.save();
 

@@ -3,6 +3,7 @@ import { usersSchema } from "../schema/userSchema.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+
 export const signup = async (req, res, next) => {
     try {
         const { error, value } = usersSchema.validate(req.body);
@@ -10,10 +11,10 @@ export const signup = async (req, res, next) => {
             return res.status(400).send(error.details[0].message);
         }
 
-       
-        const email =value.email
+
+        const email = value.email
         const ifUserExists = await userModel.findOne({ email });
-        
+
         if (ifUserExists) {
             return res.status(401).send("User has already signed up");
         } else {
@@ -21,10 +22,6 @@ export const signup = async (req, res, next) => {
             value.password = hashedPassword
 
             const newUser = await userModel.create(value);
-
-
-
-            
 
             return res.status(201).send(newUser);
         }
@@ -93,7 +90,6 @@ export const token = async (req, res, next) => {
 }
 
 
-///
 export const getUser = async (req, res, next) => {
     try {
         const userName = req.params.userName.toLowerCase();

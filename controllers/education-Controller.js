@@ -46,7 +46,7 @@ export const getAllUserEducation = async (req, res, next) => {
         const alleducation = await educationModel.find({ user: userSessionId });
 
         if (alleducation.length === 0) {
-            return res.status(204).json({ education: alleducation });
+            return res.status(200).json({ education: alleducation });
         }
 
         res.status(200).json({ education: alleducation });
@@ -61,7 +61,7 @@ export const getEducationByID = async (req, res, next) => {
         const singleEducation = await educationModel.findById(req.params.id)
 
         if (singleEducation.length === 0) {
-            return res.status(204).json({ Education: singleEducation });
+            return res.status(200).json({ Education: singleEducation });
         }
 
         res.status(201).json({ Education: singleEducation });
