@@ -6,6 +6,7 @@ import { isAuthenticated } from "../middleware/auth.js";
 
 
 const usersRouter = Router();
+usersRouter.get("/users/auth/:userName", getUser);
 
 usersRouter.post("/users/auth/session/login", login);
 
@@ -15,9 +16,9 @@ usersRouter.post("/users/auth/signup", signup);
 
 usersRouter.post("/users/auth/logout", logout);
 
-usersRouter.get("/users/auth/:userName", getUser);
 
-usersRouter.get("/users/auth/:userName", isAuthenticated, getUser);
+
+
 
 usersRouter.get("/users", getAllUsers);
 

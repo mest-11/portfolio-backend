@@ -94,6 +94,8 @@ export const getUser = async (req, res, next) => {
     try {
         const userName = req.params.userName.toLowerCase();
 
+        console.log(userName);
+
         const options = { sort: { startDate: -1 } };
 
         const userDetails = await userModel
@@ -122,6 +124,7 @@ export const getUser = async (req, res, next) => {
                 options
             })
 
+            console.log('user', userDetails)
         if (!userDetails) {
             return res.status(400).json(userDetails)
         }
