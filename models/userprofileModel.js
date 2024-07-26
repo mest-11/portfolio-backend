@@ -10,13 +10,13 @@ const userProfileSchema = new Schema({
     dateOfBirth: { type: Date },
     contact: { type: String },
     resume: { type: String },
-    languages: { type: String },
-    githubLink: { type: String },
+    languages: [{ type: String }],
+    gitHubLink: { type: String },
     linkedInLink: { type: String },
     twitterLink: { type: String },
     user: { type: Types.ObjectId, ref: "User", select: false }
 }, {
     timestamps: true
-})
+});
 
 export const userProfileModel = model('UserProfile', userProfileSchema)

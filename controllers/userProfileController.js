@@ -12,7 +12,7 @@ export const createUserProfile = async (req, res, next) => {
         });
 
         if (error) {
-            return res.status(400).json(error.details[0].message);
+            return res.status(400).send(error.details[0].message);
         }
 
         const userSessionId = req.session?.user?.id || req?.user?.id;
@@ -28,9 +28,9 @@ export const createUserProfile = async (req, res, next) => {
             user: userSessionId
         });
 
-        user.userProfile = newUserProfile._id;
+        user.userProfile = newUserProfile.id;
 
-        await userModel.save();
+        await user.save();
 
         res.status(201).json({ newUserProfile })
 
@@ -41,11 +41,22 @@ export const createUserProfile = async (req, res, next) => {
 
 export const updateUserProfile = async (req, res, next) => {
     try {
-        const { error, value } = userProfileSchema.validate({
-            ...req.body,
-            profilePicture: req.files.profilePicture[0].filename,
-            resume: req.files.resume[0].filename
-        });
+        const updateFields = { ...req.body };
+
+        if (req.file?.profilePicture) {
+            updateFields.profilePicture = req.file.filename;
+        } else if (req.files?.profilePicture) {
+            updateFields.profilePicture = req.files.profilePicture[0].filename;
+        }
+
+        if (req.file?.resume) {
+            updateFields.resume = req.file.filename;
+        } else if (req.files?.resume) {
+            updateFields.resume = req.files.resume[0].filename
+        }
+
+
+        const { error, value } = userProfileSchema.validate(updateFields);
 
         if (error) {
             return res.status(400).json(error.details[0].message);

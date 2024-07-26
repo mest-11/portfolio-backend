@@ -11,19 +11,20 @@ export const signup = async (req, res, next) => {
             return res.status(400).send(error.details[0].message);
         }
 
+        const { email } = value;
 
-        const email = value.email
         const ifUserExists = await userModel.findOne({ email });
 
         if (ifUserExists) {
             return res.status(401).send("User has already signed up");
         } else {
             const hashedPassword = bcrypt.hashSync(value.password, 10);
-            value.password = hashedPassword
 
-            const newUser = await userModel.create(value);
+            value.password = hashedPassword;
 
-            return res.status(201).send(newUser);
+            await userModel.create(value);
+
+            return res.status(201).json({ message: "Registration successful" });
         }
     } catch (error) {
         next(error);
@@ -35,13 +36,15 @@ export const login = async (req, res, next) => {
         const { userName, email, password } = req.body;
         //  Find a user using their email or username
         const user = await userModel.findOne({
-            $or: [{ email: email }, { userName: userName }],
+            $or: [{ email }, { userName }],
         });
+
         if (!user) {
             return res.status(401).json("User does not exist");
         }
         // Verify user password
-        const correctPass = bcrypt.compareSync(value.password, user.password);
+        const correctPass = bcrypt.compareSync(password, user.password);
+
         if (!correctPass) {
             return res.status(401).json("Invalid credentials");
         }
@@ -49,7 +52,7 @@ export const login = async (req, res, next) => {
         req.session.user = { id: user.id };
 
         // Return response
-        res.status(201).json("Login successful");
+        res.status(201).json({ message: "Login successful" });
     } catch (error) {
         next(error);
     }
@@ -63,20 +66,22 @@ export const token = async (req, res, next) => {
         //  Find a user using their email or username
         const user = await userModel.findOne({
             $or: [
-                { email: email }, { userName: userName }
+                { email }, { userName }
             ]
         });
+
         if (!user) {
             return res.status(401).json("User does not exist");
         }
         // Verify user password
         const correctPass = bcrypt.compareSync(password, user.password);
+
         if (!correctPass) {
             return res.status(401).json("Invalid credentials");
         }
 
         // create token
-        const token = jwt.sign({ id: user.id }, process.env.JWT_PRIVATE_KEY, { expiresIn: "1h" })
+        const token = jwt.sign({ id: user.id }, process.env.JWT_PRIVATE_KEY, { expiresIn: "5h" })
 
 
         res.status(200).json({
@@ -124,7 +129,7 @@ export const getUser = async (req, res, next) => {
                 options
             })
 
-            console.log('user', userDetails)
+        console.log('user', userDetails)
         if (!userDetails) {
             return res.status(400).json(userDetails)
         }
@@ -138,6 +143,7 @@ export const getUser = async (req, res, next) => {
 export const getAllUsers = async (req, res, next) => {
     try {
         const email = req.query.email?.toLowerCase();
+
         const userName = req.query.userName?.toLowerCase();
 
         const filter = {}
@@ -146,12 +152,12 @@ export const getAllUsers = async (req, res, next) => {
         }
 
         if (userName) {
-            filter.userName = userName
+            filter.userName = userName;
         }
 
         const users = await userModel.find(filter);
 
-        res.status(200).json({ users })
+        res.status(200).json({ users });
     } catch (error) {
         next(error);
     }
