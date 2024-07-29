@@ -30,8 +30,7 @@ expressOasGenerator.handleResponses(app, {
 
 // apply middlewares
 app.use(express.json());
-// app.use(cors({ credentials: true, origin: "*" }))
-app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+app.use(cors({ credentials: true, origin: "*" }));
 
 
 app.use(session({
@@ -39,7 +38,6 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({ mongoUrl: process.env.MONGO_URL })
-    // cookie: { secure: true }
 }))
 
 
