@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const achievementSchema = Joi.object({
+export const certificationSchema = Joi.object({
     award: Joi.string(),
     description: Joi.string(),
     image: Joi.string(),

@@ -1,6 +1,6 @@
-import { achievementModel } from "../models/achievement-model.js";
+import { achievementModel } from "../models/certificationModel.js";
 import { userModel } from "../models/usersModel.js";
-import { achievementSchema } from "../schema/achievement.js";
+import { certificationSchema } from "../schema/certification.js";
 
 export const getAchievement = async (req, res, next) => {
     try {
@@ -37,7 +37,7 @@ export const getAchievementByID = async (req, res, next) => {
 
 export const postAchievement = async (req, res, next) => {
     try {
-        const { error, value } = achievementSchema.validate({
+        const { error, value } = certificationSchema.validate({
             ...req.body,
             image: req.file.filename
         });
@@ -73,7 +73,7 @@ export const postAchievement = async (req, res, next) => {
 
 export const updateAchievement = async (req, res, next) => {
     try {
-        const { error, value } = achievementSchema.validate({
+        const { error, value } = certificationSchema.validate({
             ...req.body,
             image: req.files.filename
         });

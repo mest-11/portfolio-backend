@@ -9,7 +9,7 @@ import educationRouter from "./routers/education-route.js";
 import usersRouter from "./routers/userRouter.js";
 import profileRouter from "./routers/userProfileRouter.js";
 import projectRouter from "./routers/projectRouter.js";
-import achievementRouter from "./routers/achievement-route.js";
+import achievementRouter from "./routers/certificationRouter.js";
 import experienceRouter from "./routers/experience-route.js";
 import skillRouter from "./routers/skill-route.js";
 import volunteerRouter from "./routers/volunteer-route.js";
