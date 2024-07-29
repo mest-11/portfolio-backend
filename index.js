@@ -4,7 +4,7 @@ import expressOasGenerator from '@mickeymond/express-oas-generator';
 import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
 import "dotenv/config";
-import cors from "cors"
+import cors from "cors";
 import educationRouter from "./routers/education-route.js";
 import usersRouter from "./routers/userRouter.js";
 import profileRouter from "./routers/userProfileRouter.js";
@@ -30,7 +30,9 @@ expressOasGenerator.handleResponses(app, {
 
 // apply middlewares
 app.use(express.json());
-app.use(cors({ credentials: true, origin: "*" }))
+// app.use(cors({ credentials: true, origin: "*" }))
+app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
