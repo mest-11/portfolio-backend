@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteAchievement, getAchievement, getAchievementByID, postAchievement, updateAchievement } from "../controllers/achievement-controller.js";
+import { deleteAchievement, getAchievement, getAchievementByID, postAchievement, updateAchievement } from "../controllers/certificationController.js";
 import { isAuthenticated } from "../middleware/auth.js";
 import { remoteUpload } from "../middleware/upload.js";
 
