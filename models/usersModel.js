@@ -2,11 +2,12 @@ import { model, Schema, Types } from "mongoose";
 
 const usersSchema = new Schema({
         firstName: { type: String },
+        middleName: { type: String },
         lastName: { type: String },
         otherNames: { type: String },
-        email: { type: String, unique: true, lowercase:true },
+        email: { type: String, unique: true, lowercase: true },
         password: { type: String },
-        userName: { type: String,  unique: true, lowercase:true },
+        userName: { type: String, unique: true, lowercase: true },
         termsAndConditions: { type: Boolean },
         education: [{ type: Types.ObjectId, ref: 'Education' }],
         skills: [{ type: Types.ObjectId, ref: 'Skill' }],

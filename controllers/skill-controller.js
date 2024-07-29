@@ -6,15 +6,18 @@ import { userModel } from "../models/usersModel.js";
 export const addSkills = async (req, res) => {
     try {
         const { error, value } = skillSchema.validate(req.body);
+
         if (error) {
             return res.status(400).send(error.details[0].message)
         }
 
-        const userSessionId = req.session?.user?.id || req?.user.id;
+        const userSessionId = req.session?.user?.id || req?.user?.id;
+
         const user = await userModel.findById(userSessionId);
+        console.log(user)
 
         if (!user) {
-            return res.status(400).send(error.details[0].message)
+            return res.status(400).send("User not found")
         }
 
         const skill = await skillsModel.create({ ...value, user: userSessionId });
@@ -73,18 +76,18 @@ export const patchSkill = async (req, res) => {
         }
 
         const userSessionId = req.session.user.id;
-        const user = await userModel.findById(userSessionid);
+        const user = await userModel.findById(userSessionId);
 
         if (!user) {
             return res.status(400).send("User not found");
         }
 
-        const skill = await Skill.findByIdAndDelete("Skill not found");
+        const skill = await skillsModel.findByIdAndDelete("Skill not found");
         if (!skill) {
             return res.status(404).send('Skill not found');
         }
 
-        res.status(200).json({ Skill });
+        res.status(200).json({ skill });
     } catch (error) {
         return res.status(500).send(error)
     }

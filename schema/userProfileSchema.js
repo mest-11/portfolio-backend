@@ -12,5 +12,5 @@ export const userProfileSchema = joi.object({
     resume: joi.string(),
     languages: joi.array().items(joi.string()),
     gitHubLink: joi.string(),
-    linkedInlink: joi.string()
+    linkedInLink: joi.string()
 });
