@@ -1,11 +1,12 @@
 import { createUserProject, deleteUserProject, getAllUserProjects, getSingleProject, updateUserProject } from "../controllers/projectController.js";
 import { isAuthenticated } from "../middleware/auth.js";
 import { Router } from "express";
+import { remoteUpload } from "../middleware/upload.js";
 
 
 const projectRouter = Router();
 
-projectRouter.post('/users/projects', isAuthenticated, createUserProject);
+projectRouter.post('/users/projects', isAuthenticated, remoteUpload.single("image") ,createUserProject);
 
 projectRouter.get('/users/projects', isAuthenticated, getAllUserProjects);
 
