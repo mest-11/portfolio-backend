@@ -11,7 +11,7 @@ export const createUserProject = async (req, res) => {
             return res.status(400).send(error.details[0].message);
         }
 
-        const userSessionId = req.session.user.id;
+        const userSessionId = req.session?.user?.id || req.user?.id;
 
         const user = await userModel.findById(userSessionId);
         if (!user) {
