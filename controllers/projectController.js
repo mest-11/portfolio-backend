@@ -5,24 +5,31 @@ import { projectModel } from "../models/projectModel.js";
 
 export const createUserProject = async (req, res) => {
     try {
-        const { error, value } = projectSchema.validate(req.body);
+        const { error, value } = projectSchema.validate({
+            ...req.body,
+            image: req.file?.filename
+        });
 
         if (error) {
             return res.status(400).send(error.details[0].message);
         }
 
-        const userSessionId = req.session?.user?.id || req.user?.id;
+        const userSessionId = req.session?.user?.id || req?.user?.id;
 
         const user = await userModel.findById(userSessionId);
+
         if (!user) {
             return res.status(204).send("User not found");
         }
 
         const project = await projectModel.create(
-            { ...value, user: userSessionId }
+            {
+                ...value,
+                user: userSessionId
+            }
         );
 
-        user.projects.push(project._id)
+        user.projects.push(project.id)
 
         await user.save();
 
@@ -96,8 +103,6 @@ export const updateUserProject = async (req, res) => {
 
 export const deleteUserProject = async (req, res) => {
     try {
-
-
         const userSessionId = req.session.user.id;
         const user = await userModel.findById(userSessionId);
         if (!user) {

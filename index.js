@@ -16,7 +16,9 @@ import volunteerRouter from "./routers/volunteer-route.js";
 
 
 // connect to DB
-await mongoose.connect(process.env.MONGO_URL);
+await mongoose.connect(process.env.MONGO_URL)
+    .then(() => console.log("Database is connected"))
+    .catch((err) => console.log(err));
 
 
 const app = express();
@@ -31,7 +33,6 @@ expressOasGenerator.handleResponses(app, {
 // apply middlewares
 app.use(express.json());
 app.use(cors({ credentials: true, origin: "*" }));
-
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -59,5 +60,5 @@ app.use((req, res) => res.redirect("/api-docs/"));
 const port = process.env.PORT || 2024;
 
 app.listen(port, () => {
-    console.log(`app is listening on port ${port}`);
+    console.log(`app is running on http://localhost:${port}`);
 });
