@@ -6,7 +6,7 @@ import { remoteUpload } from "../middleware/upload.js";
 
 const projectRouter = Router();
 
-projectRouter.post('/users/projects', isAuthenticated, remoteUpload.single("image") ,createUserProject);
+projectRouter.post('/users/projects', isAuthenticated, remoteUpload.single("image"), createUserProject);
 
 projectRouter.get('/users/projects', isAuthenticated, getAllUserProjects);
 

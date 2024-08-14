@@ -1,6 +1,7 @@
 import joi from "joi";
 
 export const projectSchema = joi.object({
+    image: joi.string(),
     projectName: joi.string(),
     description: joi.string(),
     contributors: joi.string(),
